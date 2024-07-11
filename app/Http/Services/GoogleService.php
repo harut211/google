@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Events;
+use App\Models\User;
 use Carbon\Carbon;
 
 class GoogleService{
@@ -30,5 +31,21 @@ class GoogleService{
     }
 
 
+
+    public function refreshToken(){
+        $token = User::where('id',auth()->user()->id)->get()->toArray()[0];
+        $refreshToken = $token['refresh_token'];
+        return $refreshToken;
+    }
+
+    public function updateEventToDatabase($request, $event_id){
+        $eventId = Events::where('event_id',$event_id)->first();
+        $eventDb = Events::find($eventId->id);
+        $eventDb->summary = $request->input('title');
+        $eventDb->description = $request->input('description');
+        $eventDb->start = $request->input('start');
+        $eventDb->end = $request->input('end');
+        $eventDb->save();
+    }
 
 }
