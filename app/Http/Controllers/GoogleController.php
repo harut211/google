@@ -165,6 +165,7 @@ class GoogleController extends Controller
 
         $oauth2 = new Google_Service_Oauth2($this->client);
 
+
         $client = $this->client;
 
         if ($client->isAccessTokenExpired()) {
@@ -182,6 +183,7 @@ class GoogleController extends Controller
         $start = $this->googleService->timeStart($request->input('start'));
         $end = $this->googleService->timeEnd($request->input('end'));
 
+
         $event = $calendar->events->get('primary', $eventId);
 
         $event->setSummary($request->input('title'));
@@ -191,7 +193,12 @@ class GoogleController extends Controller
         $newEnd->setDateTime($end);
         $event->setEnd($newEnd);
 
+       $calendar->events->update('primary',$eventId, $event);
+
         $this->googleService->updateEventToDatabase($request,$eventId);
+
+
+
 
         return redirect()->back()->with(['success'=>'Your event has been updated.']);
 
