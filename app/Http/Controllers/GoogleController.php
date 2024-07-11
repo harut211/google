@@ -11,7 +11,6 @@ use Google_Service_Calendar_Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Google_Service_Oauth2;
-use Carbon\Carbon;
 class GoogleController extends Controller
 {
     protected $client;
@@ -47,12 +46,7 @@ class GoogleController extends Controller
         return view('edit',compact('id'));
     }
 
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        return redirect('/');
-    }
+
     public function redirect(){
         $this->client->setAccessType('offline');
         return redirect()->to($this->client->createAuthUrl());
@@ -193,11 +187,9 @@ class GoogleController extends Controller
         $newEnd->setDateTime($end);
         $event->setEnd($newEnd);
 
-       $calendar->events->update('primary',$eventId, $event);
+        $calendar->events->update('primary',$eventId, $event);
 
         $this->googleService->updateEventToDatabase($request,$eventId);
-
-
 
 
         return redirect()->back()->with(['success'=>'Your event has been updated.']);

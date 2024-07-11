@@ -3,7 +3,6 @@
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
-use App\Http\Controllers\CalendarController;
 Route::get('/', [LoginController::class, 'index']);
 
 Route::get('/redirect-google', [GoogleController::class,'redirect'])->name('redirect-google');
@@ -11,7 +10,7 @@ Route::get('/google-callback', [GoogleController::class,'callback'])->name('goog
 
 Route::middleware('auth')->group(function(){
     Route::get('/home',[GoogleController::class,'home'])->name('home');
-    Route::get('/logout',[GoogleController::class,'logout'])->name('logout');
+    Route::get('/logout',[LoginController::class,'logout'])->name('logout');
     Route::post('/addEvent',[GoogleController::class,'addEvent'])->name('calendar-event');
     Route::get('/del-event',[GoogleController::class,'delEvent']);
 
