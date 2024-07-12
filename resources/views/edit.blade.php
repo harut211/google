@@ -10,11 +10,11 @@
 </h2>
 <h3>{{session('success')}}</h3>
 <form action="{{route('edit-event')}}" method="post">
-    <input type="hidden" name="event_id" value="{{$id}}" >
-    <input type="text" name="title" placeholder="New Summary"><br>
-    <input type="text" name="description" placeholder="New Description"><br>
-    <input type="datetime-local" name="start" placeholder="Start time"><br>
-    <input type="datetime-local" name="end" placeholder="End time">
+    <input type="hidden" name="event_id" value="{{$event->event_id}}" >
+    <input type="text" name="title" value="{{$event->summary}}"><br>
+    <input type="text" name="description" value="{{$event->description}}"><br>
+    <input type="datetime-local" name="start" value="{{$event->start}}"><br>
+    <input type="datetime-local" name="end" value="{{$event->end}}">
     <button>add event</button>
 </form>
 </body>

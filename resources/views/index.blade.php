@@ -27,7 +27,7 @@
                         <span>Start time-- {{$event['start']}}</span><br>
                         <span>End time-- {{$event['end']}}</span><br>
                         <button id="del-event" value="{{$event['event_id']}}" >Delete</button>
-                         <a href="{{route('edit-page',['id'=> $event['event_id'] ])}}">Edit</a>
+                         <a href="{{route('edit-page',['id'=> $event['id'] ])}}">Edit</a>
                     </div>
                 @endforeach
             @endif

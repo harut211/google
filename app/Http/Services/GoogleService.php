@@ -80,7 +80,6 @@ class GoogleService{
                 'access_token' => $accessToken['access_token'],
                 'refresh_token' => $refreshToken,
             ]));
-
         return $save;
     }
 

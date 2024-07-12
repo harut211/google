@@ -17,6 +17,6 @@ class LoginController extends Controller
     {
         Auth::logout();
         $request->session()->invalidate();
-        return redirect('/');
+        return redirect()->route('login');
     }
 }

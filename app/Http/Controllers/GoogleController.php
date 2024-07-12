@@ -38,9 +38,10 @@ class GoogleController extends Controller
 
     public function editPage(Request $request)
     {
-        $id = $request->input('id');
 
-        return view('edit',compact('id'));
+        $event= Events::find($request->input('id'));
+
+        return view('edit',compact('event'));
     }
 
 
@@ -155,7 +156,6 @@ class GoogleController extends Controller
         $calendar->events->update('primary',$eventId, $event);
 
         $this->googleService->updateEventToDatabase($request,$eventId);
-
 
         return redirect()->back()->with(['success'=>'Your event has been updated.']);
 

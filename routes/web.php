@@ -3,11 +3,13 @@
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
-Route::get('/', [LoginController::class, 'index'])->name('login');
-
-Route::get('/redirect-google', [GoogleController::class,'redirect'])->name('redirect-google');
-Route::get('/google-callback', [GoogleController::class,'callback'])->name('google-callback');
-
+use App\Http\Middleware\AlreadyAuth;
+use App\Http\Middleware\Admin;
+Route::middleware(AlreadyAuth::class)->group(function (){
+    Route::get('/', [LoginController::class, 'index'])->name('login');
+    Route::get('/redirect-google', [GoogleController::class,'redirect'])->name('redirect-google');
+    Route::get('/google-callback', [GoogleController::class,'callback'])->name('google-callback');
+});
 Route::middleware('auth')->group(function(){
     Route::get('/home',[GoogleController::class,'home'])->name('home');
     Route::get('/logout',[LoginController::class,'logout'])->name('logout');
