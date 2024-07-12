@@ -22,21 +22,20 @@ class GoogleService{
 
     public function timeStart($start){
         $carbonTimeStart = Carbon::parse($start)->subHours(7);
-        $formattedTimeStart = $carbonTimeStart->format('Y-m-d\TH:i:s') . '-07:00';
+        $formattedTimeStart = $carbonTimeStart->format('Y-m-d\TH:i:s') . '-03:00';
         return $formattedTimeStart;
     }
 
     public function timeEnd($end){
         $carbonTimeEnd = Carbon::parse($end)->subHours(7);
-        $formattedTimeEnd = $carbonTimeEnd->format('Y-m-d\TH:i:s') . '-07:00';
+        $formattedTimeEnd = $carbonTimeEnd->format('Y-m-d\TH:i:s') . '-03:00';
         return $formattedTimeEnd;
     }
 
 
 
     public function refreshToken(){
-        $token = User::where('id',auth()->user()->id)->get()->toArray()[0];
-        $refreshToken = $token['refresh_token'];
+        $refreshToken = auth()->user()->refresh_token;
         return $refreshToken;
     }
 
@@ -53,7 +52,6 @@ class GoogleService{
 
     public function addEvent($request,$start,$end)
     {
-
         $event = new Google_Service_Calendar_Event([
             'summary' => $request->input('title'),
             'description' => $request->input('description'),
@@ -71,15 +69,17 @@ class GoogleService{
     }
 
     public function saveUser($userInfo,$accessToken,$refreshToken){
+
         $save = User::updateOrCreate([
             'google_id' => $userInfo->id,
-        ],[
-            'name' => $userInfo->name,
-            'email' => $userInfo->email,
-            'password' => Hash::make($userInfo->name.'@'.$userInfo->id),
-            'access_token' => $accessToken['access_token'],
-            'refresh_token' => $refreshToken,
-        ]);
+        ],
+            array_filter([
+                'name' => $userInfo->name,
+                'email' => $userInfo->email,
+                'password' => Hash::make($userInfo->name.'@'.$userInfo->id),
+                'access_token' => $accessToken['access_token'],
+                'refresh_token' => $refreshToken,
+            ]));
 
         return $save;
     }

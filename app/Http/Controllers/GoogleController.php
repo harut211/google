@@ -61,15 +61,15 @@ class GoogleController extends Controller
             $userInfo = $oauth2->userinfo->get();
 
             $accessToken = $this->client->getAccessToken();
-            $refreshToken = $this->client->getRefreshToken();
 
+            $refreshToken = $this->client->getRefreshToken();
             $save = $this->googleService->saveUser($userInfo,$accessToken,$refreshToken);
 
             Auth::login($save);
             return redirect('/home');
 
         }catch (\Throwable $th){
-            throw $th;
+           throw $th;
         }
 
     }
