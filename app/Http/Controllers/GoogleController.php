@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 use App\Http\Services\GoogleService;
 use App\Models\Events;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Google_Client;
 use Google_Service_Calendar;
-use Google_Service_Calendar_Event;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Google_Service_Oauth2;
 class GoogleController extends Controller
 {

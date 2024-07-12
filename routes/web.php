@@ -3,7 +3,7 @@
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
-Route::get('/', [LoginController::class, 'index']);
+Route::get('/', [LoginController::class, 'index'])->name('login');
 
 Route::get('/redirect-google', [GoogleController::class,'redirect'])->name('redirect-google');
 Route::get('/google-callback', [GoogleController::class,'callback'])->name('google-callback');
