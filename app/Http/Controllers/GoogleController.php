@@ -103,10 +103,8 @@ class GoogleController extends Controller
     }
 
     public function delEvent(Request $request){
-       $id = $request->input('val');
 
-        $oauth2 = new Google_Service_Oauth2($this->client);
-
+        $id = $request->input('val');
 
         $client = $this->client;
 
@@ -129,9 +127,6 @@ class GoogleController extends Controller
 
 
     public function editEvent(Request $request){
-
-        $oauth2 = new Google_Service_Oauth2($this->client);
-
 
         $client = $this->client;
 
