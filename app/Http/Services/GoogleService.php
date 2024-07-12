@@ -5,6 +5,8 @@ namespace App\Http\Services;
 use App\Models\Events;
 use App\Models\User;
 use Carbon\Carbon;
+use Google_Service_Calendar_Event;
+use Illuminate\Support\Facades\Hash;
 
 class GoogleService{
     public function addEventToDatabase($request,$event_id){
@@ -46,6 +48,40 @@ class GoogleService{
         $eventDb->start = $request->input('start');
         $eventDb->end = $request->input('end');
         $eventDb->save();
+    }
+
+
+    public function addEvent($request,$start,$end)
+    {
+
+        $event = new Google_Service_Calendar_Event([
+            'summary' => $request->input('title'),
+            'description' => $request->input('description'),
+            'start' => [
+                'dateTime' =>  $start,
+                'timeZone' => 'Asia/Yerevan',
+            ],
+            'end' => [
+                'dateTime' => $end,
+                'timeZone' => 'Asia/Yerevan',
+            ],
+        ]);
+        return $event;
+
+    }
+
+    public function saveUser($userInfo,$accessToken,$refreshToken){
+        $save = User::updateOrCreate([
+            'google_id' => $userInfo->id,
+        ],[
+            'name' => $userInfo->name,
+            'email' => $userInfo->email,
+            'password' => Hash::make($userInfo->name.'@'.$userInfo->id),
+            'access_token' => $accessToken['access_token'],
+            'refresh_token' => $refreshToken,
+        ]);
+
+        return $save;
     }
 
 }

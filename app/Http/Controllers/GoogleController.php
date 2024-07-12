@@ -63,21 +63,10 @@ class GoogleController extends Controller
             $accessToken = $this->client->getAccessToken();
             $refreshToken = $this->client->getRefreshToken();
 
-
-            $save = User::updateOrCreate([
-                'google_id' => $userInfo->id,
-            ],[
-                'name' => $userInfo->name,
-                'email' => $userInfo->email,
-                'password' => Hash::make($userInfo->name.'@'.$userInfo->id),
-                'access_token' => $accessToken['access_token'],
-                'refresh_token' => $refreshToken,
-            ]);
-
+            $save = $this->googleService->saveUser($userInfo,$accessToken,$refreshToken);
 
             Auth::login($save);
             return redirect('/home');
-
 
         }catch (\Throwable $th){
             throw $th;
@@ -92,9 +81,6 @@ class GoogleController extends Controller
 
         $end = $this->googleService->timeEnd($request->input('end'));
 
-        $oauth2 = new Google_Service_Oauth2($this->client);
-
-
         $client = $this->client;
 
         if ($client->isAccessTokenExpired()) {
@@ -105,18 +91,7 @@ class GoogleController extends Controller
 
         $calendar = new Google_Service_Calendar($client);
 
-        $event = new Google_Service_Calendar_Event([
-            'summary' => $request->input('title'),
-            'description' => $request->input('description'),
-            'start' => [
-                'dateTime' =>  $start,
-                'timeZone' => 'Asia/Yerevan',
-            ],
-            'end' => [
-                'dateTime' => $end,
-                'timeZone' => 'Asia/Yerevan',
-            ],
-        ]);
+        $event = $this->googleService->addEvent($request,$start,$end);
 
         $calendarId = 'primary';
         $event = $calendar->events->insert($calendarId, $event);
