@@ -102,7 +102,6 @@ class GoogleController extends Controller
 
     }
 
-
     public function delEvent(Request $request){
        $id = $request->input('val');
 
@@ -125,7 +124,6 @@ class GoogleController extends Controller
             echo "Denied";
             throw $th;
         }
-
 
     }
 

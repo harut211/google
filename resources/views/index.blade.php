@@ -6,11 +6,7 @@
 </head>
 <body>
 
-
-    <h2>
-        <a href="{{route('logout')}}">logout</a>
-    </h2>
-
+<h2>Create Event</h2>
     <form action="{{route('calendar-event')}}" method="post">
         <input type="text" name="title"><br>
         <input type="text" name="description"><br>
@@ -28,15 +24,20 @@
                     <div style="display: block; background-color: #c3cad4; margin: 20px">
                         <h4>Summary --  {{$event['summary']}}</h4>
                         <span>Description-- {{$event['description']}}</span><br>
-                        <span>Start time{{$event['start']}}</span><br>
-                        <span>End time{{$event['end']}}</span><br>
+                        <span>Start time-- {{$event['start']}}</span><br>
+                        <span>End time-- {{$event['end']}}</span><br>
                         <button id="del-event" value="{{$event['event_id']}}" >Delete</button>
                          <a href="{{route('edit-page',['id'=> $event['event_id'] ])}}">Edit</a>
                     </div>
                 @endforeach
             @endif
 </span>
-<script type="module">
+
+    <h2>
+        <a href="{{route('logout')}}">logout</a>
+    </h2>
+
+    <script type="module">
 
  $(function (){
 
