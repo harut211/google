@@ -14,8 +14,8 @@
     <input type="text" name="title" value="{{$event->summary}}"><br>
     <input type="text" name="description" value="{{$event->description}}"><br>
     <input type="datetime-local" name="start" value="{{$event->start}}"><br>
-    <input type="datetime-local" name="end" value="{{$event->end}}">
-    <button>add event</button>
+    <input type="datetime-local" name="end" value="{{$event->end}}"><br>
+    <button>Edit event</button>
 </form>
 </body>
 </html>

@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Events;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('login');
     }
 
@@ -19,4 +18,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         return redirect()->route('login');
     }
+
+
 }

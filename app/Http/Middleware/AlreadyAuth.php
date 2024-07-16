@@ -21,4 +21,5 @@ class AlreadyAuth
         }
         return $next($request);
     }
+
 }

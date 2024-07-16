@@ -9,7 +9,8 @@ use Google_Service_Calendar_Event;
 use Illuminate\Support\Facades\Hash;
 
 class GoogleService{
-    public function addEventToDatabase($request,$event_id){
+    public function addEventToDatabase($request, $event_id)
+    {
         $eventDb = Events::updateOrCreate([
             'user_id'=> auth()->user()->id,
             'event_id' =>$event_id,
@@ -20,13 +21,15 @@ class GoogleService{
         ]);
     }
 
-    public function timeStart($start){
+    public function timeStart($start)
+    {
         $carbonTimeStart = Carbon::parse($start)->subHours(7);
         $formattedTimeStart = $carbonTimeStart->format('Y-m-d\TH:i:s') . '-03:00';
         return $formattedTimeStart;
     }
 
-    public function timeEnd($end){
+    public function timeEnd($end)
+    {
         $carbonTimeEnd = Carbon::parse($end)->subHours(7);
         $formattedTimeEnd = $carbonTimeEnd->format('Y-m-d\TH:i:s') . '-03:00';
         return $formattedTimeEnd;
@@ -34,12 +37,14 @@ class GoogleService{
 
 
 
-    public function refreshToken(){
+    public function refreshToken()
+    {
         $refreshToken = auth()->user()->refresh_token;
         return $refreshToken;
     }
 
-    public function updateEventToDatabase($request, $event_id){
+    public function updateEventToDatabase($request, $event_id)
+    {
         $eventId = Events::where('event_id',$event_id)->first();
         $eventDb = Events::find($eventId->id);
         $eventDb->summary = $request->input('title');
@@ -50,7 +55,7 @@ class GoogleService{
     }
 
 
-    public function addEvent($request,$start,$end)
+    public function addEvent($request, $start, $end)
     {
         $event = new Google_Service_Calendar_Event([
             'summary' => $request->input('title'),
@@ -68,8 +73,8 @@ class GoogleService{
 
     }
 
-    public function saveUser($userInfo,$accessToken,$refreshToken){
-
+    public function saveUser($userInfo, $accessToken, $refreshToken)
+    {
         $save = User::updateOrCreate([
             'google_id' => $userInfo->id,
         ],

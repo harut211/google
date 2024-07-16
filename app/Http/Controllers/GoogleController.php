@@ -38,21 +38,20 @@ class GoogleController extends Controller
 
     public function editPage(Request $request)
     {
-
         $event= Events::find($request->input('id'));
-
         return view('edit',compact('event'));
     }
 
 
-    public function redirect(){
+    public function redirect()
+    {
         $this->client->setAccessType('offline');
         return redirect()->to($this->client->createAuthUrl());
     }
 
 
-    public function callback(Request $request){
-
+    public function callback(Request $request)
+    {
         try {
             $this->client->fetchAccessTokenWithAuthCode(request()->get('code'));
             $oauth2 = new Google_Service_Oauth2($this->client);
@@ -61,7 +60,7 @@ class GoogleController extends Controller
             $accessToken = $this->client->getAccessToken();
 
             $refreshToken = $this->client->getRefreshToken();
-            $save = $this->googleService->saveUser($userInfo,$accessToken,$refreshToken);
+            $save = $this->googleService->saveUser($userInfo, $accessToken, $refreshToken);
 
             Auth::login($save);
             return redirect('/home');
@@ -74,9 +73,7 @@ class GoogleController extends Controller
 
     public function addEvent(Request $request)
     {
-
         $start = $this->googleService->timeStart($request->input('start'));
-
         $end = $this->googleService->timeEnd($request->input('end'));
 
         $client = $this->client;
@@ -89,7 +86,7 @@ class GoogleController extends Controller
 
         $calendar = new Google_Service_Calendar($client);
 
-        $event = $this->googleService->addEvent($request,$start,$end);
+        $event = $this->googleService->addEvent($request, $start, $end);
 
         $calendarId = 'primary';
         $event = $calendar->events->insert($calendarId, $event);
@@ -100,8 +97,8 @@ class GoogleController extends Controller
 
     }
 
-    public function delEvent(Request $request){
-
+    public function delEvent(Request $request)
+    {
         $id = $request->input('val');
 
         $client = $this->client;
@@ -124,8 +121,8 @@ class GoogleController extends Controller
     }
 
 
-    public function editEvent(Request $request){
-
+    public function editEvent(Request $request)
+    {
         $client = $this->client;
 
         if ($client->isAccessTokenExpired()) {
@@ -155,7 +152,7 @@ class GoogleController extends Controller
 
         $calendar->events->update('primary',$eventId, $event);
 
-        $this->googleService->updateEventToDatabase($request,$eventId);
+        $this->googleService->updateEventToDatabase($request, $eventId);
 
         return redirect()->back()->with(['success'=>'Your event has been updated.']);
 
