@@ -91,7 +91,7 @@ class GoogleController extends Controller
         $calendarId = 'primary';
         $event = $calendar->events->insert($calendarId, $event);
 
-        $eventDb = $this->googleService->addEventToDatabase($request, $event->id);
+        $this->googleService->addEventToDatabase($request, $event->id);
 
         return redirect()->back()->with(['success'=>'Your event has been added.']);
 
@@ -112,7 +112,7 @@ class GoogleController extends Controller
         $calendar = new Google_Service_Calendar($client);
         try {
             $calendar->events->delete('primary',$id);
-            $event = Events::where('event_id',  $id)->delete();
+            Events::where('event_id',  $id)->delete();
         }catch (\Throwable $th){
             echo "Denied";
             throw $th;
