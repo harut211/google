@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Services\GoogleService;
 use App\Models\Events;
 use Illuminate\Http\Request;
@@ -8,6 +9,7 @@ use Google_Client;
 use Google_Service_Calendar;
 use Illuminate\Support\Facades\Auth;
 use Google_Service_Oauth2;
+
 class GoogleController extends Controller
 {
     protected $client;
@@ -15,7 +17,7 @@ class GoogleController extends Controller
 
     public function __construct(GoogleService $googleService)
     {
-        $this->googleService=$googleService;
+        $this->googleService = $googleService;
         $this->client = new Google_Client();
         $this->client->setClientId(env('GOOGLE_CLIENT_ID'));
         $this->client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
@@ -30,7 +32,7 @@ class GoogleController extends Controller
 
     }
 
-    public  function home()
+    public function home()
     {
         $events = Events::all()->toArray();
         return view('index', compact('events'));
@@ -38,8 +40,8 @@ class GoogleController extends Controller
 
     public function editPage(Request $request)
     {
-        $event= Events::find($request->input('id'));
-        return view('edit',compact('event'));
+        $event = Events::find($request->input('id'));
+        return view('edit', compact('event'));
     }
 
 
@@ -65,8 +67,8 @@ class GoogleController extends Controller
             Auth::login($save);
             return redirect('/home');
 
-        }catch (\Throwable $th){
-           throw $th;
+        } catch (\Throwable $th) {
+            throw $th;
         }
 
     }
@@ -93,7 +95,7 @@ class GoogleController extends Controller
 
         $this->googleService->addEventToDatabase($request, $event->id);
 
-        return redirect()->back()->with(['success'=>'Your event has been added.']);
+        return redirect()->back()->with(['success' => 'Your event has been added.']);
 
     }
 
@@ -111,9 +113,9 @@ class GoogleController extends Controller
 
         $calendar = new Google_Service_Calendar($client);
         try {
-            $calendar->events->delete('primary',$id);
-            Events::where('event_id',  $id)->delete();
-        }catch (\Throwable $th){
+            $calendar->events->delete('primary', $id);
+            Events::where('event_id', $id)->delete();
+        } catch (\Throwable $th) {
             echo "Denied";
             throw $th;
         }
@@ -150,11 +152,11 @@ class GoogleController extends Controller
         $newEnd->setDateTime($end);
         $event->setEnd($newEnd);
 
-        $calendar->events->update('primary',$eventId, $event);
+        $calendar->events->update('primary', $eventId, $event);
 
         $this->googleService->updateEventToDatabase($request, $eventId);
 
-        return redirect()->back()->with(['success'=>'Your event has been updated.']);
+        return redirect()->back()->with(['success' => 'Your event has been updated.']);
 
     }
 
