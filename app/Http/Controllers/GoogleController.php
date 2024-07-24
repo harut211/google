@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EventRequest;
 use App\Http\Services\GoogleService;
 use App\Models\Events;
 use Illuminate\Http\Request;
@@ -73,7 +74,7 @@ class GoogleController extends Controller
 
     }
 
-    public function addEvent(Request $request)
+    public function addEvent(EventRequest $request)
     {
         $start = $this->googleService->timeStart($request->input('start'));
         $end = $this->googleService->timeEnd($request->input('end'));
@@ -123,7 +124,7 @@ class GoogleController extends Controller
     }
 
 
-    public function editEvent(Request $request)
+    public function editEvent(EventRequest $request)
     {
         $client = $this->client;
 

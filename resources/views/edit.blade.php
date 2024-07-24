@@ -2,21 +2,61 @@
 <html>
 <head>
     <title>Update page</title>
+    @vite(['resources/scss/app.scss'])
 </head>
 <body>
-<h2>Update your event</h2>
+<h2 class="d-flex justify-content-center">Update your event</h2>
+
+<div class="card">
+    <div class="card-body ">
+        <div class="container-lg d-flex justify-content-center">
+            <div class="row d-flex justify-content-center">
+                <form action="{{route('edit-event')}}" method="post">
+                    @if(!empty(session('success')))
+                        <div class="alert alert-success">
+                            {{session('success')}}
+                        </div>
+                    @endif
+                    <input type="hidden" name="event_id" value="{{$event->event_id}}">
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Title</label>
+                        <input type="text" name="title" class="form-control" id="formGroupExampleInput"
+                               value="{{$event->summary}}">
+                        <div style="color: red">
+                            {{$errors->first('title')}}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-label">Content</label>
+                        <input type="text" name="description" class="form-control" id="formGroupExampleInput2"
+                               value="{{$event->description}}">
+                        <div style="color: red">
+                            {{$errors->first('description')}}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <input type="datetime-local" name="start" class="form-control"
+                               value="{{$event->start}}">
+                        <div style="color: red">
+                            {{$errors->first('start')}}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <input type="datetime-local" name="end" class="form-control" style="background-color: #f8fafc"
+                               value="{{$event->end}}">
+                    </div>
+                    <div style="color: red">
+                        {{$errors->first('end')}}
+                    </div>
+                    <button class="btn btn-primary justify-content-center">Edit Event</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <h2>
-    <a href="{{route('home')}}" >Go back</a>
+    <a href="{{route('home')}}">Go back</a>
 </h2>
-<h3>{{session('success')}}</h3>
-<form action="{{route('edit-event')}}" method="post">
-    <input type="hidden" name="event_id" value="{{$event->event_id}}" >
-    <input type="text" name="title" value="{{$event->summary}}"><br>
-    <input type="text" name="description" value="{{$event->description}}"><br>
-    <input type="datetime-local" name="start" value="{{$event->start}}"><br>
-    <input type="datetime-local" name="end" value="{{$event->end}}"><br>
-    <button>Edit event</button>
-</form>
 </body>
 </html>
 
