@@ -34,14 +34,16 @@
                         </div>
                     </div>
                     <div class="mb-3">
+                        <label for="formGroupExampleInput3" class="form-label">Start Event</label>
                         <input type="datetime-local" name="start" class="form-control"
-                               style="background-color: #f8fafc">
+                              id="formGroupExampleInput3" >
                         <div style="color: red">
                             {{$errors->first('start')}}
                         </div>
                     </div>
                     <div class="mb-3">
-                        <input type="datetime-local" name="end" class="form-control" style="background-color: #f8fafc">
+                        <label for="formGroupExampleInput4" class="form-label">End Event</label>
+                        <input type="datetime-local" name="end" class="form-control" id="formGroupExampleInput4">
                     </div>
                     <div style="color: red">
                         {{$errors->first('end')}}
