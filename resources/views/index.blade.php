@@ -3,7 +3,7 @@
 <head>
     <title>events</title>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    @vite(['resources/scss/app.scss'])
+    @vite(['resources/scss/app.scss','resources/js/custom.js'])
 </head>
 <body>
 
@@ -69,7 +69,7 @@
                                 <span>Description-- {{$event['description']}}</span><br>
                                 <span>Start time-- {{$event['start']}}</span><br>
                                 <span>End time-- {{$event['end']}}</span><br>
-                                <button  class="btn btn-danger" id="del-event" value="{{$event['event_id']}}">Delete</button>
+                                <button  class="btn btn-danger del-event" id="del-event" value="{{$event['event_id']}}">Delete</button>
                                  <button class="btn btn-warning">
                                      <a href="{{route('edit-page',['id'=> $event['id'] ])}}">Edit</a>
                                  </button>
@@ -86,27 +86,6 @@
     <a href="{{route('logout')}}">logout</a>
 </h2>
 
-<script type="module">
-
-    $(function () {
-
-        $('#del-event').on('click', function () {
-
-            let val = $(this).val();
-            $.ajax({
-                url: "/del-event",
-                data: {
-                    'val': val,
-                },
-                success: function (result) {
-                    alert('Your event deleted');
-                    location.reload();
-                }
-            })
-        });
-
-    })
-</script>
 </body>
 </html>
 
